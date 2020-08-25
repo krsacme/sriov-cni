@@ -14,6 +14,7 @@ import (
 	"github.com/intel/sriov-cni/pkg/config"
 	"github.com/intel/sriov-cni/pkg/sriov"
 	"github.com/intel/sriov-cni/pkg/utils"
+	"github.com/krsacme/genmac/pkg/mac"
 	"github.com/vishvananda/netlink"
 )
 
@@ -65,6 +66,13 @@ func cmdAdd(args *skel.CmdArgs) error {
 	// for MAC config.
 	if netConf.RuntimeConfig.Mac != "" {
 		netConf.MAC = netConf.RuntimeConfig.Mac
+	}
+
+	if netConf.MAC == "" && netConf.DPDKMode {
+		generatedMac, err := mac.GenerateMacAddress()
+		if err != nil {
+			netConf.MAC = generatedMac.String()
+		}
 	}
 
 	netns, err := ns.GetNS(args.Netns)
