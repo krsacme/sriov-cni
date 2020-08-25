@@ -15,6 +15,8 @@ import (
 	"github.com/intel/sriov-cni/pkg/sriov"
 	"github.com/intel/sriov-cni/pkg/utils"
 	"github.com/vishvananda/netlink"
+
+	"github.com/intel/sriov-cni/logging"
 )
 
 type envArgs struct {
@@ -42,6 +44,7 @@ func getEnvArgs(envArgsString string) (*envArgs, error) {
 }
 
 func cmdAdd(args *skel.CmdArgs) error {
+	logging.Infof("cmdAdd: Start")
 	var macAddr string
 	netConf, err := config.LoadConf(args.StdinData)
 	if err != nil {
@@ -158,6 +161,7 @@ func cmdAdd(args *skel.CmdArgs) error {
 }
 
 func cmdDel(args *skel.CmdArgs) error {
+	logging.Infof("cmdDel: Start")
 	// https://github.com/kubernetes/kubernetes/pull/35240
 	if args.Netns == "" {
 		return nil
