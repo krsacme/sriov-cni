@@ -70,7 +70,7 @@ func cmdAdd(args *skel.CmdArgs) error {
 
 	if netConf.MAC == "" && netConf.DPDKMode {
 		generatedMac, err := mac.GenerateMacAddress()
-		if err != nil {
+		if err == nil {
 			netConf.MAC = generatedMac.String()
 		}
 	}
